@@ -48,7 +48,7 @@ main:
 	popq	%r8
 	decq	%r8
 	jnz	.LOOP1
-	jmp
+	jmp	.-50
 .LOOP2:
 	pushq	%r8
 	movq	$0, %rdx
@@ -65,16 +65,17 @@ main:
 	jmp .-57
 .LOOP3:
 	pushq	%r8
-	movq	-127(%rbp, %rax), -113(%rbp, %rax)
+	movq	-127(%rbp, %rax), %rbx
+	movq	%rbx, -113(%rbp, %rax)
 	incq	%rax
 	popq	%r8
 	decq	%r8
 	jnz	.LOOP3
-	jmp
+	jmp	.-50
 .LOOP4:
 	movq	$1, %rax
 	cmp	%rax, -113(%rbp)
-	je	.-
+	je	.-50
 	movq	-113(%rbp), %rax
 	movq	$0, %r8
 	jmp	.LOOP5
@@ -85,17 +86,19 @@ main:
 	movq	%rax, %rdx
 	subq	%r8, %rdx
 	decq	%rdx
-	movq	-113(%rbp, %rdx), -113(%rbp, %r8)
+	movq	-113(%rbp, %rdx), %r10
+	movq	%r10, -113(%rbp, %r8)
 	movq	%rbx, -113(%rbp, %rdx)
 	incq	%r8
 	movq	%r8, %rbx
-	sall	$1, %rbx
+	salq	$1, %rbx
 	cmp	%rbx, %rax
 	ja	.LOOP5
-	jmp
+	jmp	.-50
 .LOOP6:
 	pushq	%r8
-	movq	-126(%rbp, %rbx), -127(%rbp, %rbx)
+	movq	-126(%rbp, %rbx), %r10
+	movq	%r10, -127(%rbp, %rbx)
 	incq	%rbx
 	popq	%r8
 	decq	%r8
@@ -126,9 +129,10 @@ main:
 .IF3:
 	movq	-141(%rbp,%r11),%rdx
 	movq	-127(%rbp,%r11),%rbx
-	mobq	-145(%rbp), %rax
+	movq	-145(%rbp), %rax
 	subq	%rdx, %rax
-	movq	-127(%rbp, %rax), -127(%rbp, %r11)
+	movq	-127(%rbp, %rax), %r10
+	movq	%r10, -127(%rbp, %r11)
 	movq	%rbx, -127(%rbp, %rax)
 	decq	%r11
 	popq	%r8
