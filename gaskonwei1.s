@@ -43,12 +43,12 @@ main:
 	jmp	.LOOP3
 	jmp	.LOOP4
 	cmp	%r9, -144(%rbp)
-	jae	.+5
+	jae	.+9
 	movq	%r9, -144(%rbp)
 	popq	%r8
 	decq	%r8
 	jnz	.LOOP1
-	jmp	.-50
+	jmp	.-89
 .LOOP2:
 	pushq	%r8
 	movq	$0, %rdx
@@ -62,7 +62,7 @@ main:
 	jne	.IF3
 	popq	%r8
 	jnz	.LOOP2
-	jmp .-57
+	jmp .-103
 .LOOP3:
 	pushq	%r8
 	movq	-127(%rbp, %rax), %rbx
@@ -71,16 +71,16 @@ main:
 	popq	%r8
 	decq	%r8
 	jnz	.LOOP3
-	jmp	.-50
+	jmp	.-111
 .LOOP4:
 	movq	$1, %rax
 	cmp	%rax, -113(%rbp)
-	je	.-50
+	je	.-122
 	movq	-113(%rbp), %rax
 	movq	$0, %r8
 	jmp	.LOOP5
 	incq	%r9
-	jmp	.-50
+	jmp	.LOOP4
 .LOOP5:
 	movq	-113(%rbp, %r8), %rbx
 	movq	%rax, %rdx
@@ -94,7 +94,7 @@ main:
 	salq	$1, %rbx
 	cmp	%rbx, %rax
 	ja	.LOOP5
-	jmp	.-50
+	jmp	.-48
 .LOOP6:
 	pushq	%r8
 	movq	-126(%rbp, %rbx), %r10
@@ -103,12 +103,12 @@ main:
 	popq	%r8
 	decq	%r8
 	jnz	.LOOP6
-	jmp	.+30
+	jmp	.+46
 .IF1:
 	movq	-145(%rbp), %rax
 	decq	%rax
 	movq	%rax, %r11
-	jmp	.-57
+	jmp	.-181
 .IF2:
 	movq	%r11, %rax
 	movq	-127(%rbp, %rax), %rdx
@@ -125,7 +125,7 @@ main:
 	subq	%r11,%rax
 	movq	%rax,-141(%rbp,%r11)
 	decq	%r11
-	jmp	.-50
+	jmp	.-219
 .IF3:
 	movq	-141(%rbp,%r11),%rdx
 	movq	-127(%rbp,%r11),%rbx
@@ -138,6 +138,7 @@ main:
 	popq	%r8
 	decq	%r8
 	pushq	%r8
+	jmp	.-266
 .LFE0:
 	.size	main, .-main
 	.ident	"GCC: (GNU) 9.2.1 20190827 (Red Hat 9.2.1-1)"
