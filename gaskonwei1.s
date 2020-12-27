@@ -4,7 +4,7 @@
 .LC0:
 	.string	"Hello, world!"
 .ANS:
-	.string "%d\n"
+	.ascii "%d\n"
 	.text
 	.globl	main
 	.type	main, @function
@@ -18,14 +18,59 @@ main:
 	.cfi_def_cfa_register 6
 	movl	$.LC0, %edi
 	call	puts
-	movq	$10, %r8
-	movq	$15, -145(%rbp)
-	movq	$0, -144(%rbp)
+	#ここから値の代入
+	movb	$14, -100(%rbp)
+	movb	$13, -101(%rbp)
+	movb	$12, -102(%rbp)	
+	movb	$11, -103(%rbp)
+	movb	$10, -104(%rbp)
+	movb	$9, -105(%rbp)
+	movb	$8, -106(%rbp)
+	movb	$7, -107(%rbp)
+	movb	$6, -108(%rbp)
+	movb	$5, -109(%rbp)
+	movb	$4, -110(%rbp)
+	movb	$3, -111(%rbp)
+	movb	$2, -112(%rbp)
+	movb	$1, -113(%rbp)
+	movb	$14, -114(%rbp)
+	movb	$13, -115(%rbp)
+	movb	$12, -116(%rbp)
+	movb	$11, -117(%rbp)
+	movb	$10, -118(%rbp)
+	movb	$9, -119(%rbp)
+	movb	$8, -120(%rbp)
+	movb	$7, -121(%rbp)
+	movb	$6, -122(%rbp)
+	movb	$5, -123(%rbp)
+	movb	$4, -124(%rbp)
+	movb	$3, -125(%rbp)
+	movb	$2, -126(%rbp)
+	movb	$1, -127(%rbp)
+	movq	$1, -135(%rbp)
+	movq	$2, -143(%rbp)
+	movq	$3, -151(%rbp)
+	movq	$4, -159(%rbp)
+	movq	$5, -167(%rbp)
+	movq	$6, -175(%rbp)
+	movq	$7, -183(%rbp)
+	movq	$8, -191(%rbp)
+	movq	$9, -199(%rbp)
+	movq	$10, -207(%rbp)
+	movq	$11, -215(%rbp)
+	movq	$12, -223(%rbp)
+	movq	$13, -231(%rbp)
+	movq	$14, -239(%rbp)
+	movq	$6227020800, %r8
+	movq	$14, %r10
+	movb	$0, -240(%rbp)
+	#LOOP1へ（全体のループ）
 	jmp	.LOOP1
-	pushq	-144(%rbp)
-	pushq	$.ANS
+	mov	$.ANS, %rdi
+	movq	$0, %rsi
+	movb	-240(%rbp), %sil
+	mov	$0, %eax
 	call	printf
-	leave
 	movl	$0, %eax
 	popq	%rbp
 	.cfi_def_cfa 7, 8
@@ -33,112 +78,120 @@ main:
 	.cfi_endproc
 .LOOP1:
 	pushq	%r8
-	movq	-145(%rbp), %rax
+	movq	%r10, %rax
 	decq	%rax
-	movq	%rax, %r11
+	movq	%rax, %r9
 	movq	$1, %r8
+	#LOOP2へ（順列の作成）
 	jmp	.LOOP2
 	movq	$0, %rax
-	movq	-145(%rbp), %r8
+	movq	%r10, %r8
+	#LOOP3へ（indicesから、ex_pに値を移す）
 	jmp	.LOOP3
+	movb	$0, -241(%rbp)
 	jmp	.LOOP4
-	cmp	%r9, -144(%rbp)
-	jae	.+9
-	movq	%r9, -144(%rbp)
+	movb	-241(%rbp), %al
+	cmpb	%al, -240(%rbp)
+	jae	.+8
+	movb	%al, -240(%rbp)
 	popq	%r8
 	decq	%r8
 	jnz	.LOOP1
-	jmp	.-89
+	jmp	.-109
 .LOOP2:
 	pushq	%r8
-	movq	$0, %rdx
-	cmp	%r11, %rdx
+	movq	$0, %rax
+	cmp	%r9, %rax
 	ja	.IF1
-	movq	%r11, %rax
-	decq	-141(%rbp, %rax)
-	movq	$0, %rdx
-	cmp	-141(%rbp, %rax), %rdx
+	movq	$0, %rbx
+	movq	%r9, %rax
+	salq	$3, %rax
+	decq	-239(%rbp, %rax)
+	cmp	-239(%rbp, %rax), %rbx
 	je	.IF2
 	jne	.IF3
 	popq	%r8
-	jnz	.LOOP2
-	jmp .-103
+	movq	$0, %rax
+	cmp	%r8, %rax
+	jnz	.LOOP2#cmp命令を実行しないと、フラグが立っていない。
+	jmp	.-127
 .LOOP3:
 	pushq	%r8
-	movq	-127(%rbp, %rax), %rbx
-	movq	%rbx, -113(%rbp, %rax)
+	movb	-127(%rbp, %rax), %bl
+	movb	%bl, -113(%rbp, %rax)
 	incq	%rax
 	popq	%r8
 	decq	%r8
 	jnz	.LOOP3
-	jmp	.-111
+	jmp	.-140
 .LOOP4:
-	movq	$1, %rax
-	cmp	%rax, -113(%rbp)
-	je	.-122
-	movq	-113(%rbp), %rax
+	movb	$1, %bl
+	cmpb	-113(%rbp), %bl
+	je	.-138
+	movq	$0, %rax
+	movb	-113(%rbp), %al
 	movq	$0, %r8
 	jmp	.LOOP5
-	incq	%r9
+	incb	-241(%rbp)
 	jmp	.LOOP4
 .LOOP5:
-	movq	-113(%rbp, %r8), %rbx
+	movb	-113(%rbp, %r8), %bl
 	movq	%rax, %rdx
 	subq	%r8, %rdx
 	decq	%rdx
-	movq	-113(%rbp, %rdx), %r10
-	movq	%r10, -113(%rbp, %r8)
-	movq	%rbx, -113(%rbp, %rdx)
+	movb	-113(%rbp, %rdx), %r11b
+	movb	%r11b, -113(%rbp, %r8)
+	movb	%bl, -113(%rbp, %rdx)
 	incq	%r8
 	movq	%r8, %rbx
 	salq	$1, %rbx
 	cmp	%rbx, %rax
-	ja	.LOOP5
-	jmp	.-48
+	jbe	.-48
+	jmp	.LOOP5
 .LOOP6:
-	pushq	%r8
-	movq	-126(%rbp, %rbx), %r10
-	movq	%r10, -127(%rbp, %rbx)
-	incq	%rbx
-	popq	%r8
 	decq	%r8
-	jnz	.LOOP6
-	jmp	.+46
+	ja	.+53
+	movb	-126(%rbp, %rbx), %dh
+	movb	%dh, -127(%rbp, %rbx)
+	incq	%rbx
+	jmp	.LOOP6
 .IF1:
-	movq	-145(%rbp), %rax
+	movq	%r10, %rax
 	decq	%rax
-	movq	%rax, %r11
-	jmp	.-181
+	movq	%rax, %r9
+	jmp	.-195
 .IF2:
-	movq	%r11, %rax
-	movq	-127(%rbp, %rax), %rdx
-	movq	-145(%rbp), %rbx
+	movq	%r9, %rax
+	movb	-127(%rbp, %rax), %dl
+	movq	%r10, %rbx
 	subq	%rax, %rbx
 	decq	%rbx
 	movq	%rbx, %r8
-	movq	%r11, %rbx
-	jmp	.LOOP6
-	movq	-145(%rbp), %rax
-	decq	%rax
-	movq	%rdx, -127(%rbp, %rax)
-	movq	-145(%rbp), %rax
-	subq	%r11,%rax
-	movq	%rax,-141(%rbp,%r11)
-	decq	%r11
-	jmp	.-219
+	movq	%r9, %rbx
+	jmp	.LOOP6	
+	movq	%r10, %rax
+	movb	%dl, -128(%rbp, %rax)
+	subq	%r9,%rax#n-i
+	movq	%r9, %rbx
+	salq	$3, %rbx
+	movq	%rax, -239(%rbp,%rbx)
+	decq	%r9
+	jmp	.-210
 .IF3:
-	movq	-141(%rbp,%r11),%rdx
-	movq	-127(%rbp,%r11),%rbx
-	movq	-145(%rbp), %rax
+	movq	%r9, %rax
+	salq	$3, %rax
+	movq	-239(%rbp,%rax), %rdx
+	movb	-127(%rbp,%r9), %bl
+	movq	%r10, %rax
 	subq	%rdx, %rax
-	movq	-127(%rbp, %rax), %r10
-	movq	%r10, -127(%rbp, %r11)
-	movq	%rbx, -127(%rbp, %rax)
-	decq	%r11
+	movb	-127(%rbp, %rax), %r11b
+	movb	%r11b, -127(%rbp, %r9)
+	movb	%bl, -127(%rbp, %rax)
+	decq	%r9
 	popq	%r8
 	decq	%r8
 	pushq	%r8
-	jmp	.-266
+	jmp	.-265
 .LFE0:
 	.size	main, .-main
 	.ident	"GCC: (GNU) 9.2.1 20190827 (Red Hat 9.2.1-1)"
